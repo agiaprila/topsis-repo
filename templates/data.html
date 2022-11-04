@@ -1,0 +1,55 @@
+{% extends 'layout.html'%}{%block title %} Register {% endblock %}{%block content%}
+<div id="contact" class="contact-us section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.25s">
+                <div class=".bg-light">
+                    <div class="row">
+                        <div class="col-lg-6 offset-lg-3">
+                            <div class="section-heading">
+                                <h6 class=".bg-light !important">TOPSIS</h6>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama UMKM</th>
+                                <th>C1</th>
+                                <th>C2</th>
+                                <th>C3</th>
+                                <th>C4</th>
+                                <th>C5</th>
+                                <th>C6</th>
+                                <th>C7</th>
+                                <th>C8</th>
+                                <th>C9</th>
+                                <th>C10</th>
+                                <th>Action</th>
+                            </tr>
+                            {% for d in data %}
+                            <tr class="table-light">
+                                {% for r in d %}
+                                <td>
+                                    {{ r }}
+                                </td>
+                                {% endfor %}
+                                <td>
+                                    <a href="{{ url_for('delete', id_data=d[0]) }}" class="btn btn-danger bts-xs" onclick="return confirm ('Yakin Ingin Dihapus?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        <div class="col-lg-12">
+
+                                <button type="button" id="form-submit" class="btn btn-primary" style="color: white !important ;" data-toggle="modal" data-target="#mymodal"><a href="{{ url_for('insert') }}">Massukkan Data</a> </button>
+
+                        </div>
+                    </div>
+            </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
