@@ -7,13 +7,19 @@
                     <div class="row">
                         <div class="col-lg-6 offset-lg-3">
                             <div class="section-heading">
-                                <h6 class=".bg-light !important">TOPSIS</h6>
+                                <h6 class=".text-white"></h6>
                             </div>
                         </div>
-
-                        <table class="table table-hover table-dark">
+                        <div class="pt-3">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button  class="btn btn-light" style="color: red;" type="button"><a href="{{ url_for('topsis') }}"> Generate topsis </a></button>
+                            <button type="button" id="form-submit" class="btn btn-primary" " data-toggle="modal" data-target="#mymodal"><a href="{{ url_for('insert') }}" class="btn btn-primary">Massukkan Data</a> </button>
+                        </div>
+                        </div>
+                        
+                        <table class="table table-hover table-dark mt-3">
                             <tr>
-                                <th>ID</th>
+                                <th>Nomor</th>
                                 <th>Nama UMKM</th>
                                 <th>C1</th>
                                 <th>C2</th>
@@ -30,6 +36,7 @@
                             {% for d in data %}
                             <tr class="table-light">
                                 {% for r in d %}
+
                                 <td>
                                     {{ r }}
                                 </td>
@@ -40,11 +47,7 @@
                             </tr>
                             {% endfor %}
                         </table>
-                        <div class="col-lg-12">
-
-                                <button type="button" id="form-submit" class="btn btn-primary" style="color: white !important ;" data-toggle="modal" data-target="#mymodal"><a href="{{ url_for('insert') }}">Massukkan Data</a> </button>
-
-                        </div>
+                        
                     </div>
             </div>
                 

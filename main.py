@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
+import topsispy as tp
 
 app = Flask(__name__)
 
@@ -25,21 +26,46 @@ def topsis():
     cur = mysql.connection.cursor()
     cur.execute("SELECT C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 FROM bawang")
     data = cur.fetchall()
+    cur.execute("SELECT  Nama, C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 FROM bawang")
+    data_all = cur.fetchall()
     cur.close()
     evaluation_matrix = [list(data) for data in data]
+    evaluation_matrix_2 = [list(data) for data in data_all]
+
     weights = [5,4,5,5,5,4,4,2,2,3]
-    criterias = [1,1,0,1,1,1,0,1,0,0]
-    decision = topsis(evaluation_matrix, weights, criterias)
-    print(decision)
-    return render_template('topsis.html')
+    criterias = [1,1,-1,1,1,1,-1,1,-1,-1]
+    print(tp.topsis(evaluation_matrix, weights, criterias))
+    result  = tp.topsis(evaluation_matrix, weights, criterias) [0]
+
+    rank = tp.topsis(evaluation_matrix, weights, criterias)[1]
+
+    rank_dict = {}
+    for i, r in enumerate(rank):
+        rank_dict[i] = r
+    print(rank_dict)
+
+    sorted_rank_dict = sorted(rank_dict.items(), key=lambda x:x[1], reverse=True)
+    sorted_rank_dict = dict(sorted_rank_dict)
+    sorted_my_rank_index = list(sorted_rank_dict.keys())
+
+    topsis_result = []
+    for i in sorted_my_rank_index:
+        topsis_result.append(evaluation_matrix_2[i])
+
+    print(topsis_result)
+    return render_template('topsis.html', result = result, topsis_result=topsis_result)
+
+
 
 @app.route('/data')
 def data():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM bawang")
     data = cur.fetchall()
+    cur.execute("SELECT Nama, C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 FROM bawang")
+    data_without_id = cur.fetchall()
     cur.close()
-    return render_template('data.html', data=data)
+    return render_template('data.html', data=data, data_without_id=data_without_id)
 
 
 @app.route('/insert', methods = ['POST', 'GET'])
